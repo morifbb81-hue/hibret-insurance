@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#9B1B4A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hibret Ins.">
+<meta name="description" content="Hibret Insurance Policy Manager">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<title>Hibret Insurance Manager</title>
+<style>
+:root{--crimson:#9B1B4A;--deep:#1a0810;--gold:#B8922A;--s:#fff;--s2:#faf8f9;--s3:#f4f0f2;--bd:rgba(155,27,74,0.15);--t:#1a0810;--t2:#6b4a5a;--t3:#9e7a8a;--danger:#c0392b;--warn:#e67e22;--ok:#27ae60;--r:14px;--rs:9px;}
+@media(prefers-color-scheme:dark){:root{--crimson:#e0607a;--s:#18100e;--s2:#22100e;--s3:#2e1616;--bd:rgba(224,96,122,0.18);--t:#f4e8ed;--t2:#c8a0b2;--t3:#8a6070;}}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--s2);color:var(--t);min-height:100vh;}
+.hdr{background:var(--s);border-bottom:1.5px solid var(--bd);height:62px;display:flex;align-items:center;padding:0 16px;gap:12px;position:sticky;top:0;z-index:200;}
+.logo{width:40px;height:40px;border-radius:10px;background:var(--deep);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo svg{width:26px;height:26px;}
+.brand h1{font-size:15px;font-weight:700;color:var(--crimson);}
+.brand p{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.sb{position:relative;}
+.sb i{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--t3);pointer-events:none;}
+.sb input{padding:8px 10px 8px 30px;border:1.5px solid var(--bd);border-radius:var(--rs);font-size:12px;color:var(--t);background:var(--s2);width:140px;transition:.15s;}
+.sb input:focus{outline:none;border-color:var(--crimson);width:170px;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 15px;border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--bd);background:var(--s);color:var(--t);transition:.15s;white-space:nowrap;}
+.btn:hover{background:var(--s3);}
+.btn:active{transform:scale(.97);}
+.bp{background:var(--crimson);color:#fff;border-color:var(--crimson);}
+.bp:hover{background:#7d1439;}
+.bg{background:var(--gold);color:#fff;border-color:var(--gold);}
+.bg:hover{background:#9a7320;}
+.bsm{padding:6px 11px;font-size:12px;}
+.bd2{color:var(--danger);border-color:rgba(192,57,43,.3);}
+.bd2:hover{background:rgba(192,57,43,.06);}
+.nav{background:var(--s);border-bottom:1.5px solid var(--bd);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nt{padding:13px 18px;font-size:12px;font-weight:600;color:var(--t3);border-bottom:2.5px solid transparent;margin-bottom:-1.5px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:.15s;flex-shrink:0;}
+.nt i{font-size:17px;}
+.nt.on{color:var(--crimson);border-color:var(--crimson);}
+.pg{display:none;padding:18px 14px 80px;}
+.pg.on{display:block;}
+.ribbon{background:linear-gradient(135deg,#1a0810,#3d0e20);border-radius:var(--r);padding:20px;margin-bottom:18px;position:relative;overflow:hidden;}
+.ribbon::before{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(155,27,74,.25);}
+.ribbon h2{font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;position:relative;}
+.ribbon p{font-size:12px;color:rgba(255,255,255,.55);position:relative;}
+.ribbon-a{display:flex;gap:8px;margin-top:14px;position:relative;flex-wrap:wrap;}
+.perm-card{border-radius:var(--r);border:1.5px solid;padding:16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;}
+.pc-def{background:rgba(39,174,96,.07);border-color:rgba(39,174,96,.3);}
+.pc-denied{background:rgba(192,57,43,.05);border-color:rgba(192,57,43,.3);}
+.pc-granted{background:rgba(39,174,96,.06);border-color:rgba(39,174,96,.3);}
+.perm-icon{font-size:28px;flex-shrink:0;}
+.perm-text h3{font-size:13px;font-weight:700;color:var(--t);margin-bottom:3px;}
+.perm-text p{font-size:12px;color:var(--t2);line-height:1.5;}
+.perm-a{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.stat{background:var(--s);border:1.5px solid var(--bd);border-radius:var(--r);padding:16px;}
+.slbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.sval{font-size:26px;font-weight:800;line-height:1;}
+.sval.danger{color:var(--danger);}
+.sval.warn{color:var(--warn);}
+.sval.ok{color:var(--ok);}
+.ssub{font-size:10px;color:var(--t3);margin-top:3px;}
+.alert2{border-radius:var(--r);border:1.5px solid;padding:14px 16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:11px;}
+.alert2.urgent{border-color:var(--danger);background:rgba(192,57,43,.06);border-left:4px solid var(--danger);}
+.alert2.warn{border-color:var(--warn);background:rgba(230,126,34,.06);border-left:4px solid var(--warn);}
+.alert2 i{font-size:20px;flex-shrink:0;margin-top:1px;}
+.alert2.urgent i{color:var(--danger);}
+.alert2.warn i{color:var(--warn);}
+.alert2 strong{font-size:13px;font-weight:700;display:block;margin-bottom:2px;}
+.alert2 span{font-size:12px;color:var(--t2);}
+.sec{background:var(--s);border:1.5px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.sh{padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.st{font-size:13px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:7px;}
+.st i{color:var(--crimson);font-size:18px;}
+.filters{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:10px 14px;border-bottom:1px solid var(--bd);scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.chip{padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--bd);background:var(--s);color:var(--t2);white-space:nowrap;flex-shrink:0;transition:.15s;}
+.chip.on{background:var(--crimson);color:#fff;border-color:var(--crimson);}
+.chip:hover:not(.on){background:var(--s3);}
+.plist{padding:12px;display:flex;flex-direction:column;gap:10px;}
+.pcard{border:1.5px solid var(--bd);border-radius:var(--rs);padding:14px;border-left:4px solid transparent;cursor:pointer;transition:box-shadow .2s;background:var(--s);}
+.pcard:active{transform:scale(.99);}
+.pcard:hover{box-shadow:0 2px 18px rgba(26,8,16,.09);}
+.pcard.urgent{border-left-color:var(--danger);}
+.pcard.warn{border-left-color:var(--warn);}
+.pcard.ok{border-left-color:var(--ok);}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.pc-name{font-size:14px;font-weight:700;color:var(--t);margin-bottom:2px;}
+.pc-no{font-size:11px;color:var(--t3);}
+.badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;flex-shrink:0;white-space:nowrap;}
+.btp{background:rgba(41,128,185,.12);color:#1a6190;}
+.bcp{background:rgba(39,174,96,.12);color:#1a7a44;}
+.btk{background:rgba(155,27,74,.12);color:var(--crimson);}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.pflbl{font-size:9px;text-transform:uppercase;letter-spacing:.4px;color:var(--t3);margin-bottom:1px;}
+.pfval{font-size:12px;color:var(--t);font-weight:600;}
+.prg{margin-bottom:10px;}
+.prg-t{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin-bottom:3px;}
+.prg-b{height:4px;background:var(--s3);border-radius:2px;overflow:hidden;}
+.prg-f{height:100%;border-radius:2px;}
+.fok{background:var(--ok);}
+.fwn{background:var(--warn);}
+.fdn{background:var(--danger);}
+.pc-foot{display:flex;align-items:center;justify-content:space-between;}
+.dtag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;}
+.du{background:rgba(192,57,43,.1);color:var(--danger);}
+.dw{background:rgba(230,126,34,.1);color:var(--warn);}
+.dok{background:rgba(39,174,96,.1);color:var(--ok);}
+.pca{display:flex;gap:5px;}
+.pca .btn{padding:5px 9px;font-size:12px;}
+.empty{padding:48px 20px;text-align:center;}
+.empty i{font-size:40px;color:var(--t3);display:block;margin-bottom:10px;}
+.empty h3{font-size:14px;font-weight:600;color:var(--t2);margin-bottom:5px;}
+.empty p{font-size:12px;color:var(--t3);}
+.mo{position:fixed;inset:0;background:rgba(26,8,16,.55);z-index:1000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+@media(min-width:500px){.mo{align-items:center;}}
+.mo.on{opacity:1;pointer-events:all;}
+.modal{background:var(--s);width:100%;max-width:580px;max-height:93vh;overflow-y:auto;border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform .28s cubic-bezier(.34,1.56,.64,1);}
+@media(min-width:500px){.modal{border-radius:16px;max-height:90vh;transform:translateY(20px);}}
+.mo.on .modal{transform:translateY(0)!important;}
+.mhdr{padding:20px 20px 14px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--s);z-index:2;}
+.mhdr h2{font-size:15px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:8px;}
+.mhdr h2 i{color:var(--crimson);font-size:19px;}
+.mclose{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--bd);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:18px;}
+.mbdy{padding:20px;}
+.mft{padding:14px 20px;border-top:1px solid var(--bd);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:var(--s);}
+.ftabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:18px;overflow-x:auto;}
+.ftab{padding:9px 16px;font-size:12px;font-weight:600;cursor:pointer;color:var(--t3);border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:.15s;}
+.ftab.on{color:var(--crimson);border-color:var(--crimson);}
+.fsec{display:none;}
+.fsec.on{display:block;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.frow.s1{grid-template-columns:1fr;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.flbl{font-size:11px;font-weight:600;color:var(--t2);}
+.flbl em{color:var(--danger);font-style:normal;}
+.fi,.fsel{padding:10px 12px;border:1.5px solid var(--bd);border-radius:var(--rs);font-size:13px;color:var(--t);background:var(--s);transition:.15s;width:100%;-webkit-appearance:none;}
+.fi:focus,.fsel:focus{outline:none;border-color:var(--crimson);}
+@media(max-width:420px){.frow{grid-template-columns:1fr;}}
+.sc{background:var(--s);border:1.5px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:14px;}
+.sc h3{font-size:13px;font-weight:700;color:var(--t);margin-bottom:6px;display:flex;align-items:center;gap:7px;}
+.sc h3 i{color:var(--crimson);font-size:17px;}
+.sc p{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:10px;}
+.trow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd);}
+.trow:last-child{border-bottom:none;}
+.tlbl{font-size:13px;color:var(--t);}
+.tsub{font-size:11px;color:var(--t3);}
+.tgl{position:relative;width:44px;height:24px;flex-shrink:0;}
+.tgl input{opacity:0;width:0;height:0;}
+.sldr{position:absolute;inset:0;background:#ccc;border-radius:24px;cursor:pointer;transition:.3s;}
+.sldr:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
+input:checked+.sldr{background:var(--crimson);}
+input:checked+.sldr:before{transform:translateX(20px);}
+.spill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;}
+.p-ok{background:rgba(39,174,96,.1);color:var(--ok);}
+.p-wn{background:rgba(230,126,34,.1);color:var(--warn);}
+.p-dn{background:rgba(192,57,43,.1);color:var(--danger);}
+.p-gy{background:var(--s3);color:var(--t3);}
+.sdot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dl{font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--t3);margin-bottom:2px;}
+.dv{font-size:13px;color:var(--t);font-weight:600;}
+.cov{list-style:none;}
+.cov li{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;line-height:1.4;}
+.cov li:last-child{border-bottom:none;}
+.cov li i{color:var(--ok);font-size:15px;flex-shrink:0;margin-top:1px;}
+.nbox{background:var(--s3);border-radius:var(--rs);padding:11px 13px;font-size:12px;color:var(--t2);line-height:1.6;margin-top:10px;}
+.nbox strong{color:var(--t);display:block;margin-bottom:3px;}
+.ddiv{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-bottom:7px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px;}
+.ddiv i{color:var(--crimson);font-size:14px;}
+.nlist{padding:12px;display:flex;flex-direction:column;gap:8px;}
+.ni{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--rs);border:1.5px solid var(--bd);background:var(--s);}
+.ni.urgent{border-color:var(--danger);background:rgba(192,57,43,.04);}
+.ni.warn{border-color:var(--warn);background:rgba(230,126,34,.04);}
+.ndot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.du2{background:var(--danger);}
+.dw2{background:var(--warn);}
+.ntitle{font-size:13px;font-weight:600;color:var(--t);margin-bottom:2px;}
+.nsub{font-size:11px;color:var(--t3);}
+.ntime{font-size:11px;color:var(--t3);white-space:nowrap;margin-left:auto;flex-shrink:0;}
+.ic{background:linear-gradient(135deg,#0a3d1a,#145c2a);border-radius:var(--r);padding:16px;margin-bottom:18px;display:flex;align-items:center;gap:14px;cursor:pointer;}
+.ic:active{transform:scale(.98);}
+.ic .ici{font-size:32px;flex-shrink:0;}
+.ic h3{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px;}
+.ic p{font-size:11px;color:rgba(255,255,255,.65);}
+.fab{position:fixed;bottom:24px;right:20px;z-index:99;width:56px;height:56px;border-radius:50%;background:var(--crimson);border:none;color:#fff;font-size:26px;cursor:pointer;box-shadow:0 4px 20px rgba(155,27,74,.5);display:flex;align-items:center;justify-content:center;transition:.2s;}
+.fab:active{transform:scale(.92);}
+@media(min-width:700px){.fab{display:none;}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">
+    <svg viewBox="0 0 40 40" fill="none">
+      <rect x="2" y="6" width="9" height="13" rx="1.5" fill="#B8922A"/>
+      <rect x="2" y="22" width="9" height="9" rx="1.5" fill="rgba(255,255,255,.3)"/>
+      <rect x="14" y="12" width="9" height="19" rx="1.5" fill="#9B1B4A"/>
+      <rect x="26" y="17" width="9" height="14" rx="1.5" fill="rgba(155,27,74,.6)"/>
+    </svg>
+  </div>
+  <div class="brand"><h1>Hibret Insurance</h1><p>Policy Manager</p></div>
+  <div class="hdr-r">
+    <div class="sb"><i class="ti ti-search"></i><input type="search" id="srch" placeholder="Search..." oninput="doF()"></div>
+    <button class="btn bp bsm" onclick="openAdd()" id="hAdd" style="display:none"><i class="ti ti-plus"></i>Add</button>
+  </div>
+</header>
+<script>if(window.innerWidth>=700)document.getElementById('hAdd').style.display='inline-flex';</script>
+
+<nav class="nav">
+  <div class="nt on" onclick="goPg('dash',this)"><i class="ti ti-layout-dashboard"></i>Dashboard</div>
+  <div class="nt" onclick="goPg('policies',this)"><i class="ti ti-file-certificate"></i>Policies</div>
+  <div class="nt" onclick="goPg('alerts',this)"><i class="ti ti-bell"></i>Alerts<span id="abadge" style="background:var(--danger);color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:700;display:none;margin-left:3px"></span></div>
+  <div class="nt" onclick="goPg('settings',this)"><i class="ti ti-settings"></i>Settings</div>
+</nav>
+
+<!-- DASHBOARD -->
+<div class="pg on" id="pg-dash">
+  <div class="ribbon">
+    <h2>Insurance Dashboard</h2>
+    <p>Motor Third Party &amp; Comprehensive — all policies tracked</p>
+    <div class="ribbon-a">
+      <button class="btn bg bsm" onclick="triggerAll()"><i class="ti ti-bell-ringing"></i>Notify All Due</button>
+      <button class="btn bsm" style="color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.1)" onclick="openAdd()"><i class="ti ti-plus"></i>Add Policy</button>
+    </div>
+  </div>
+  <div id="iBanner" style="display:none"></div>
+  <div id="aArea"></div>
+  <div class="stats">
+    <div class="stat"><div class="slbl">Total Policies</div><div class="sval" id="sAll">0</div><div class="ssub">All tracked</div></div>
+    <div class="stat"><div class="slbl">Critical ≤7 Days</div><div class="sval danger" id="s7">0</div><div class="ssub">Urgent!</div></div>
+    <div class="stat"><div class="slbl">Expiring ≤30 Days</div><div class="sval warn" id="s30">0</div><div class="ssub">Renew soon</div></div>
+    <div class="stat"><div class="slbl">Safe &amp; Active</div><div class="sval ok" id="sOk">0</div><div class="ssub">&gt;30 days</div></div>
+  </div>
+  <div class="sec">
+    <div class="sh"><div class="st"><i class="ti ti-fire"></i>Upcoming Renewals</div></div>
+    <div class="plist" id="dList"></div>
+  </div>
+</div>
+
+<!-- POLICIES -->
+<div class="pg" id="pg-policies">
+  <div class="sec">
+    <div class="sh"><div class="st"><i class="ti ti-file-certificate"></i>All Policies</div></div>
+    <div class="filters">
+      <div class="chip on" onclick="setF2('all',this)">All</div>
+      <div class="chip" onclick="setF2('tp',this)">Third Party</div>
+      <div class="chip" onclick="setF2('comp',this)">Comprehensive</div>
+      <div class="chip" onclick="setF2('tak',this)">Takaful</div>
+    </div>
+    <div class="plist" id="pList"></div>
+  </div>
+</div>
+
+<!-- ALERTS -->
+<div class="pg" id="pg-alerts">
+  <div id="permBlock"></div>
+  <div class="sec">
+    <div class="sh"><div class="st"><i class="ti ti-bell-ringing"></i>Active Alerts</div><span id="aCnt" style="font-size:11px;color:var(--t3)"></span></div>
+    <div id="nList" class="nlist"></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="pg" id="pg-settings">
+  <div class="sc">
+    <h3><i class="ti ti-bell"></i>Notification Status</h3>
+    <div id="nsBlock"></div>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap" id="nActions"></div>
+  </div>
+  <div class="sc">
+    <h3><i class="ti ti-clock"></i>Reminder Schedule</h3>
+    <p>When to get notified before a policy expires:</p>
+    <div class="trow"><div><div class="tlbl">30 days before</div><div class="tsub">First early warning</div></div><label class="tgl"><input type="checkbox" id="r30" checked onchange="saveSet()"><span class="sldr"></span></label></div>
+    <div class="trow"><div><div class="tlbl">15 days before</div><div class="tsub">Second warning</div></div><label class="tgl"><input type="checkbox" id="r15" checked onchange="saveSet()"><span class="sldr"></span></label></div>
+    <div class="trow"><div><div class="tlbl">7 days before</div><div class="tsub">One-week warning</div></div><label class="tgl"><input type="checkbox" id="r7" checked onchange="saveSet()"><span class="sldr"></span></label></div>
+    <div class="trow"><div><div class="tlbl">2 days before</div><div class="tsub">Urgent warning</div></div><label class="tgl"><input type="checkbox" id="r2" checked onchange="saveSet()"><span class="sldr"></span></label></div>
+    <div class="trow"><div><div class="tlbl">1 day before</div><div class="tsub">Final — renew TODAY</div></div><label class="tgl"><input type="checkbox" id="r1" checked onchange="saveSet()"><span class="sldr"></span></label></div>
+  </div>
+  <div class="sc">
+    <h3><i class="ti ti-device-mobile"></i>Install as Android App</h3>
+    <p>Open this page in <strong>Chrome on your Android phone</strong>, then:<br>
+    Tap the <strong>3-dot menu (&#8942;)</strong> &#8594; <strong>"Add to Home Screen"</strong> &#8594; <strong>"Add"</strong><br><br>
+    It will appear on your home screen like a real app — works offline too!</p>
+    <div id="iBtnBlock"></div>
+  </div>
+  <div class="sc">
+    <h3><i class="ti ti-info-circle"></i>About</h3>
+    <p>Hibret Insurance Manager v2.0 — Addis Ababa, Ethiopia<br>All data saved on your device. Works offline.</p>
+    <button class="btn bd2 bsm" style="margin-top:10px" onclick="clearAll()"><i class="ti ti-trash"></i>Clear All Data</button>
+  </div>
+</div>
+
+<button class="fab" onclick="openAdd()"><i class="ti ti-plus"></i></button>
+
+<!-- ADD MODAL -->
+<div class="mo" id="mAdd" onclick="if(event.target===this)closeAdd()">
+  <div class="modal">
+    <div class="mhdr"><h2><i class="ti ti-plus-circle"></i><span id="mTitle">Add Policy</span></h2><button class="mclose" onclick="closeAdd()"><i class="ti ti-x"></i></button></div>
+    <div class="mbdy">
+      <div class="ftabs">
+        <div class="ftab on" onclick="fTab('pol',this)">Policy</div>
+        <div class="ftab" onclick="fTab('veh',this)">Vehicle</div>
+        <div class="ftab" onclick="fTab('cov',this)">Coverage</div>
+      </div>
+      <div class="fsec on" id="ft-pol">
+        <div class="frow"><div class="fg"><label class="flbl">Type <em>*</em></label><select class="fsel" id="f-type"><option value="tp">Motor Third Party</option><option value="comp">Motor Comprehensive</option><option value="tak">Takaful Comprehensive</option></select></div><div class="fg"><label class="flbl">Policy / Cert No.</label><input class="fi" id="f-polno" placeholder="GU/41/..."></div></div>
+        <div class="frow s1"><div class="fg"><label class="flbl">Insured Name <em>*</em></label><input class="fi" id="f-name" placeholder="Full name of insured"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">Start Date <em>*</em></label><input type="date" class="fi" id="f-start"></div><div class="fg"><label class="flbl">End Date <em>*</em></label><input type="date" class="fi" id="f-end"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">Premium (ETB)</label><input class="fi" id="f-prem" placeholder="5,953.80"></div><div class="fg"><label class="flbl">Branch</label><input class="fi" id="f-branch" placeholder="Shalla Branch"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">Account No.</label><input class="fi" id="f-acct" placeholder="002371874"></div><div class="fg"><label class="flbl">Phone</label><input class="fi" id="f-phone" placeholder="0911650032"></div></div>
+        <div class="frow s1"><div class="fg"><label class="flbl">Address</label><input class="fi" id="f-addr" placeholder="Sub City, Addis Ababa"></div></div>
+      </div>
+      <div class="fsec" id="ft-veh">
+        <div class="frow"><div class="fg"><label class="flbl">Plate No. <em>*</em></label><input class="fi" id="f-plate" placeholder="109-CD-009"></div><div class="fg"><label class="flbl">Make</label><input class="fi" id="f-make" placeholder="Toyota"></div></div>
+        <div class="frow s1"><div class="fg"><label class="flbl">Chassis No.</label><input class="fi" id="f-chassis" placeholder="JTMHY05J4M4099806"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">Engine No.</label><input class="fi" id="f-engine" placeholder="3467711"></div><div class="fg"><label class="flbl">Year</label><input type="number" class="fi" id="f-year" placeholder="2020"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">Body Type</label><select class="fsel" id="f-body"><option>Station Wagon</option><option>Sedan</option><option>Pick-up</option><option>Van</option><option>Bus</option><option>Truck</option><option>SUV</option><option>Other</option></select></div><div class="fg"><label class="flbl">Seating</label><input type="number" class="fi" id="f-seats" placeholder="9"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">HP (cc)</label><input class="fi" id="f-hp" placeholder="5663"></div><div class="fg"><label class="flbl">Sum Insured (ETB)</label><input class="fi" id="f-sum" placeholder="12,059,078.40"></div></div>
+      </div>
+      <div class="fsec" id="ft-cov">
+        <div class="frow"><div class="fg"><label class="flbl">Emergency Medical (ETB)</label><input class="fi" id="f-med" placeholder="15,000/person"></div><div class="fg"><label class="flbl">Death (ETB)</label><input class="fi" id="f-death" placeholder="250,000/person"></div></div>
+        <div class="frow"><div class="fg"><label class="flbl">Bodily Injury (ETB)</label><input class="fi" id="f-inj" placeholder="250,000/person"></div><div class="fg"><label class="flbl">Property Damage (ETB)</label><input class="fi" id="f-prop" placeholder="200,000/accident"></div></div>
+        <div class="frow s1"><div class="fg"><label class="flbl">Notes / Remarks</label><input class="fi" id="f-notes" placeholder="Special conditions, endorsements..."></div></div>
+      </div>
+    </div>
+    <div class="mft"><button class="btn" onclick="closeAdd()">Cancel</button><button class="btn bp" onclick="saveP()"><i class="ti ti-device-floppy"></i>Save</button></div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="mo" id="mDet" onclick="if(event.target===this)closeDet()">
+  <div class="modal">
+    <div class="mhdr"><h2><i class="ti ti-file-certificate"></i>Policy Details</h2><button class="mclose" onclick="closeDet()"><i class="ti ti-x"></i></button></div>
+    <div class="mbdy" id="detBody"></div>
+    <div class="mft"><button class="btn bd2" id="detDel"><i class="ti ti-trash"></i></button><button class="btn" onclick="closeDet()">Close</button><button class="btn bp bsm" id="detEdit"><i class="ti ti-edit"></i>Edit</button></div>
+  </div>
+</div>
+
+<script>
+const SK='hibret_p5',SETK='hibret_s2',NK='hibret_n2';
+let pols=[],filt='all',editId=null;
+
+function load(){try{pols=JSON.parse(localStorage.getItem(SK))||[];}catch{pols=[];}if(!pols.length)seed();loadSet();}
+function saveD(){localStorage.setItem(SK,JSON.stringify(pols));}
+
+function seed(){
+  pols=[
+    {id:'p1',type:'tp',polno:'GU/41/1011/2026/00358',name:'HUMAID SAIF ALNEYADI',acct:'002371874',branch:'Shalla Branch',start:'2026-03-25',end:'2027-03-24',prem:'ETB 5,953.80',addr:'NIFAS SILK LAFTO SUB CITY, Addis Ababa',phone:'09 11 65 00 32',plate:'109-CD-009',make:'Toyota',chassis:'JTMHY05J4M4099806',engine:'3467711',body:'Station Wagon',year:'2020',seats:'9',hp:'5663',sum:'N/A',med:'ETB 15,000/person',death:'ETB 250,000/person',inj:'ETB 250,000/person',prop:'ETB 200,000/accident',notes:'PN-YCBXRCBH'},
+    {id:'p2',type:'tak',polno:'TU/41/1121/2026/00001',name:'Mr. HUMAID SAIF ALNEYADI (ATO)',acct:'',branch:'Barakah Takaful',start:'2026-03-24',end:'2027-03-23',prem:'ETB 141,550.15',addr:'A/C Embassy UAE, N/S/LAFTO Sub City, Woreda 03',phone:'0911650032',plate:'109-CD-009',make:'Toyota',chassis:'JTMHY05J4M4099806',engine:'3467711',body:'Station Wagon',year:'2020',seats:'8',hp:'5663',sum:'ETB 12,059,078.40',med:'',death:'',inj:'',prop:'',notes:'Motor Own Damage. Personal Accident ETB 10,000/seat. Depreciation, Vehicle Repairs, Excess Clause, Unobtainable Parts Endorsements.'}
+  ];saveD();
+}
+
+let settings={r30:true,r15:true,r7:true,r2:true,r1:true};
+function loadSet(){try{settings=JSON.parse(localStorage.getItem(SETK))||settings;}catch{}['r30','r15','r7','r2','r1'].forEach(k=>{const e=document.getElementById(k);if(e)e.checked=settings[k]!==false;});}
+function saveSet(){settings={r30:document.getElementById('r30').checked,r15:document.getElementById('r15').checked,r7:document.getElementById('r7').checked,r2:document.getElementById('r2').checked,r1:document.getElementById('r1').checked};localStorage.setItem(SETK,JSON.stringify(settings));}
+function ms(){return[30,15,7,2,1].filter(m=>settings['r'+m]);}
+
+function dL(end){const n=new Date();n.setHours(0,0,0,0);return Math.ceil((new Date(end)-n)/864e5);}
+function fD(d){return d?new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'-';}
+function pct(s,e){const t=new Date(e)-new Date(s),el=new Date()-new Date(s);return Math.min(100,Math.max(0,Math.round(el/t*100)));}
+function uCls(d){return d<=7?'urgent':d<=30?'warn':'ok';}
+function dCls(d){return d<=7?'du':d<=30?'dw':'dok';}
+function dLbl(d){if(d<0)return`Expired ${Math.abs(d)}d ago!`;if(d===0)return'Expires TODAY!';if(d===1)return'1 day left!';return`${d} days left`;}
+function tBadge(t){if(t==='tp')return'<span class="badge btp">Third Party</span>';if(t==='comp')return'<span class="badge bcp">Comprehensive</span>';return'<span class="badge btk">Takaful</span>';}
+
+function render(){rStats();rAlerts();rDash();rPols();rNotifs();rNotifUI();}
+
+function rStats(){
+  const a=pols.length,c7=pols.filter(p=>{const d=dL(p.end);return d>=0&&d<=7;}).length,
+        c30=pols.filter(p=>{const d=dL(p.end);return d>=0&&d<=30;}).length,cOk=pols.filter(p=>dL(p.end)>30).length;
+  document.getElementById('sAll').textContent=a;
+  document.getElementById('s7').textContent=c7;
+  document.getElementById('s30').textContent=c30;
+  document.getElementById('sOk').textContent=cOk;
+  const b=document.getElementById('abadge'),tot=pols.filter(p=>dL(p.end)<=30&&dL(p.end)>=0).length;
+  if(tot>0){b.textContent=tot;b.style.display='inline';}else b.style.display='none';
+}
+
+function rAlerts(){
+  const u=pols.filter(p=>dL(p.end)<=2&&dL(p.end)>=0);
+  document.getElementById('aArea').innerHTML=u.map(p=>{
+    const d=dL(p.end);return`<div class="alert2 urgent"><i class="ti ti-alert-triangle"></i><div><strong>URGENT — ${p.name}</strong><span>${d===0?'Expires TODAY!':'Only '+d+' day(s) left!'} · ${p.plate||p.polno}</span></div></div>`;
+  }).join('');
+}
+
+function cardH(p){
+  const d=dL(p.end),pc=pct(p.start,p.end),fc=pc>80?'fdn':pc>55?'fwn':'fok';
+  return`<div class="pcard ${uCls(d)}" onclick="openDet('${p.id}')">
+    <div class="pc-top"><div><div class="pc-name">${p.name||'Unnamed'}</div><div class="pc-no">${p.polno||'-'}</div></div>${tBadge(p.type)}</div>
+    <div class="pc-grid">
+      <div><div class="pflbl">Plate No.</div><div class="pfval">${p.plate||'-'}</div></div>
+      <div><div class="pflbl">Make / Year</div><div class="pfval">${p.make||'-'} ${p.year||''}</div></div>
+      <div><div class="pflbl">Start</div><div class="pfval">${fD(p.start)}</div></div>
+      <div><div class="pflbl">Expiry</div><div class="pfval" style="color:${d<=7?'var(--danger)':d<=30?'var(--warn)':'var(--t)'}">${fD(p.end)}</div></div>
+    </div>
+    <div class="prg"><div class="prg-t"><span>Period elapsed</span><span>${pc}%</span></div><div class="prg-b"><div class="prg-f ${fc}" style="width:${pc}%"></div></div></div>
+    <div class="pc-foot">
+      <div class="${dCls(d)} dtag"><i class="ti ti-clock" style="font-size:12px"></i>${dLbl(d)}</div>
+      <div class="pca" onclick="event.stopPropagation()"><button class="btn bsm" onclick="openEdit('${p.id}')"><i class="ti ti-edit"></i></button><button class="btn bsm bd2" onclick="delP('${p.id}')"><i class="ti ti-trash"></i></button></div>
+    </div>
+  </div>`;
+}
+
+function emptyH(m='No policies found',s='Tap + to add your first policy'){return`<div class="empty"><i class="ti ti-file-off"></i><h3>${m}</h3><p>${s}</p></div>`;}
+
+function rDash(){const s=[...pols].sort((a,b)=>dL(a.end)-dL(b.end));document.getElementById('dList').innerHTML=s.length?s.map(cardH).join(''):emptyH('No policies yet','Tap the + button to add your first insurance policy');}
+
+function rPols(){
+  const srch=document.getElementById('srch').value.toLowerCase();
+  const tm={all:null,tp:'tp',comp:'comp',tak:'tak'};const tf=tm[filt]||null;
+  let list=[...pols].filter(p=>{if(tf&&p.type!==tf)return false;if(srch){const h=[p.name,p.plate,p.polno,p.make,p.chassis].join(' ').toLowerCase();return h.includes(srch);}return true;});
+  list.sort((a,b)=>dL(a.end)-dL(b.end));
+  document.getElementById('pList').innerHTML=list.length?list.map(cardH).join(''):emptyH();
+}
+
+function doF(){rPols();}
+function setF2(f,el){filt=f;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');rPols();}
+
+// NOTIFICATIONS
+function getNK(id,d){return`${id}_d${d}`;}
+function wasDone(id,d){try{const s=JSON.parse(localStorage.getItem(NK))||{};return s[getNK(id,d)]===new Date().toDateString();}catch{return false;}}
+function markDone(id,d){try{const s=JSON.parse(localStorage.getItem(NK))||{};s[getNK(id,d)]=new Date().toDateString();localStorage.setItem(NK,JSON.stringify(s));}catch{}}
+
+function sendNotif(title,body,tag){
+  if(!('Notification'in window)||Notification.permission!=='granted')return;
+  try{new Notification(title,{body,icon:'icon-192.png',tag,badge:'icon-192.png'});}catch(e){}
+}
+
+function checkNotifs(){
+  if(!('Notification'in window)||Notification.permission!=='granted')return;
+  const milestones=ms();
+  pols.forEach(p=>{
+    const d=dL(p.end);
+    if(d<0&&!wasDone(p.id,'exp')){markDone(p.id,'exp');sendNotif('🚨 EXPIRED — Hibret Insurance',`${p.name}\nPlate: ${p.plate||'-'}\nExpired ${Math.abs(d)} days ago — RENEW NOW!`,'exp'+p.id);}
+    milestones.forEach(m=>{if(d===m&&!wasDone(p.id,m)){markDone(p.id,m);const e=d<=2?'🚨':d<=7?'⚠️':'📅';sendNotif(`${e} Insurance Expires in ${d} Day${d>1?'s':''} — Hibret`,`${p.name}\nPlate: ${p.plate||'-'} | ${p.polno||p.type}\nExpires: ${fD(p.end)}\n${dLbl(d)} — please renew soon!`,getNK(p.id,m));}});
+  });
+}
+
+function triggerAll(){
+  if(!('Notification'in window)||Notification.permission!=='granted'){reqPerm();return;}
+  let sent=0;
+  pols.forEach(p=>{const d=dL(p.end);
+    if(d<=30&&d>=0){const e=d<=2?'🚨':d<=7?'⚠️':'📅';sendNotif(`${e} Reminder — ${p.name}`,`Plate: ${p.plate||'-'}\nExpires: ${fD(p.end)}\n${dLbl(d)} — renew soon!`,'now_'+p.id);sent++;}
+    if(d<0){sendNotif('🚨 EXPIRED!',`${p.name} (${p.plate||'-'}) expired ${Math.abs(d)} days ago!`,'exp_'+p.id);sent++;}
+  });
+  if(!sent)alert('✅ All policies are safe! Nothing expiring in 30 days.');
+}
+
+function reqPerm(){
+  if(!('Notification'in window)){alert('Your browser does not support notifications. Use Chrome on Android or desktop.');return;}
+  Notification.requestPermission().then(p=>{rNotifUI();rPermBlock();if(p==='granted'){sendNotif('✅ Hibret Insurance','Notifications are ON! You will be reminded before policies expire.','welcome');setTimeout(checkNotifs,500);}});
+}
+
+function rNotifs(){
+  const m=[30,15,7,2,1],items=[];
+  pols.forEach(p=>{const d=dL(p.end);
+    if(d<0)items.push({cls:'urgent',dc:'du2',d,p,msg:`EXPIRED ${Math.abs(d)} days ago — renew immediately!`});
+    else m.filter(x=>d<=x).forEach(x=>{if(!items.find(i=>i.p.id===p.id&&i.d===d))items.push({cls:d<=7?'urgent':'warn',dc:d<=7?'du2':'dw2',d,p,msg:dLbl(d)+' — '+(d<=2?'RENEW IMMEDIATELY!':d<=7?'Schedule renewal NOW':'Plan your renewal')});});
+  });
+  const u=[],seen=new Set();items.forEach(i=>{const k=i.p.id+'_'+i.d;if(!seen.has(k)){seen.add(k);u.push(i);}});u.sort((a,b)=>a.d-b.d);
+  document.getElementById('aCnt').textContent=u.length?`${u.length} alert${u.length>1?'s':''}`:' All clear!';
+  document.getElementById('nList').innerHTML=u.length?u.map(n=>`<div class="ni ${n.cls}"><div class="ndot ${n.dc}"></div><div style="flex:1"><div class="ntitle">${n.p.name}</div><div class="nsub">${n.p.plate||n.p.polno} · ${n.msg}</div></div><div class="ntime">${dLbl(n.d)}</div></div>`).join(''):`<div class="empty"><i class="ti ti-circle-check" style="color:var(--ok)"></i><h3>All Clear!</h3><p>No policies expiring in the next 30 days.</p></div>`;
+  rPermBlock();
+}
+
+function rPermBlock(){
+  const el=document.getElementById('permBlock');if(!el)return;
+  if(!('Notification'in window)){el.innerHTML='<div class="perm-card pc-denied"><div class="perm-icon">❌</div><div class="perm-text"><h3>Notifications Not Supported</h3><p>Open this app in <strong>Chrome</strong> browser on Android or desktop to enable notifications.</p></div></div>';return;}
+  const p=Notification.permission;
+  if(p==='granted')el.innerHTML='<div class="perm-card pc-granted"><div class="perm-icon">🔔</div><div class="perm-text"><h3>Notifications Active ✓</h3><p>You will receive pop-up reminders on this device when a policy is due to expire.<br><br>Reminders fire automatically when you open the app each day.</p><div class="perm-a"><button class="btn bp bsm" onclick="triggerAll()"><i class="ti ti-bell-ringing"></i>Send All Alerts Now</button></div></div></div>';
+  else if(p==='denied')el.innerHTML='<div class="perm-card pc-denied"><div class="perm-icon">🔕</div><div class="perm-text"><h3>Notifications Blocked</h3><p>You blocked notifications. To fix it:<br>Chrome &#8594; Settings &#8594; Site Settings &#8594; Notifications &#8594; find this site &#8594; Allow.</p></div></div>';
+  else el.innerHTML='<div class="perm-card pc-def"><div class="perm-icon">🔔</div><div class="perm-text"><h3>Enable Notifications</h3><p>Tap below to allow pop-up reminders on your phone and computer — 30, 15, 7, 2, and 1 day before expiry.</p><div class="perm-a"><button class="btn bp" onclick="reqPerm()"><i class="ti ti-bell"></i>Enable Notifications</button></div></div></div>';
+}
+
+function rNotifUI(){
+  const sb=document.getElementById('nsBlock');if(!sb)return;
+  if(!('Notification'in window)){sb.innerHTML='<div class="spill p-dn"><div class="sdot"></div>Not Supported in This Browser</div><p style="font-size:12px;color:var(--t2);margin-top:8px">Open in Chrome on Android or desktop.</p>';document.getElementById('nActions').innerHTML='';return;}
+  const p=Notification.permission;
+  const pills={granted:'p-ok',denied:'p-dn',default:'p-wn'};
+  const labels={granted:'Notifications ON ✓',denied:'Notifications BLOCKED',default:'Notifications OFF'};
+  sb.innerHTML=`<div class="spill ${pills[p]}"><div class="sdot"></div>${labels[p]}</div>`;
+  const na=document.getElementById('nActions');
+  if(p==='granted')na.innerHTML='<button class="btn bg bsm" onclick="triggerAll()"><i class="ti ti-bell-ringing"></i>Send All Due Alerts</button><button class="btn bsm" onclick="checkNotifs()"><i class="ti ti-refresh"></i>Auto-Check Now</button>';
+  else if(p==='denied')na.innerHTML='<p style="font-size:12px;color:var(--t2);margin-top:6px">Chrome &#8594; Settings &#8594; Site Settings &#8594; Notifications &#8594; Allow this site.</p>';
+  else na.innerHTML='<button class="btn bp" onclick="reqPerm()"><i class="ti ti-bell"></i>Enable Notifications</button>';
+  const ib=document.getElementById('iBtnBlock');
+  if(ib) ib.innerHTML=deferredPrompt?'<button class="btn bp" onclick="installApp()"><i class="ti ti-device-mobile"></i>Install App Now</button>':' <div style="font-size:12px;color:var(--t3);margin-top:6px">If you see the install prompt in Chrome, tap it! Or use the 3-dot menu &#8942; &#8594; Add to Home Screen.</div>';
+}
+
+// PWA INSTALL
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  const b=document.getElementById('iBanner');b.style.display='block';
+  b.innerHTML='<div class="ic" onclick="installApp()"><div class="ici">📱</div><div><h3>Install as Android App</h3><p>Tap here — add to home screen, works like a real app!</p></div></div>';
+  rNotifUI();
+});
+function installApp(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')document.getElementById('iBanner').style.display='none';deferredPrompt=null;});}
+
+// NAVIGATION
+function goPg(name,el){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.nt').forEach(t=>t.classList.remove('on'));document.getElementById('pg-'+name).classList.add('on');el.classList.add('on');render();}
+
+// MODAL
+function openAdd(){editId=null;document.getElementById('mTitle').textContent='Add Policy';clearF();document.getElementById('mAdd').classList.add('on');fTab('pol',document.querySelector('.ftab'));}
+function closeAdd(){document.getElementById('mAdd').classList.remove('on');}
+function openEdit(id){const p=pols.find(x=>x.id===id);if(!p)return;editId=id;document.getElementById('mTitle').textContent='Edit Policy';fillF(p);document.getElementById('mAdd').classList.add('on');fTab('pol',document.querySelector('.ftab'));closeDet();}
+function fTab(n,el){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.fsec').forEach(s=>s.classList.remove('on'));if(el)el.classList.add('on');else document.querySelector('.ftab').classList.add('on');document.getElementById('ft-'+n).classList.add('on');}
+function gv(id){const e=document.getElementById(id);return e?e.value.trim():'';}
+function clearF(){['f-type','f-polno','f-name','f-start','f-end','f-prem','f-branch','f-acct','f-phone','f-addr','f-plate','f-make','f-chassis','f-engine','f-year','f-seats','f-hp','f-sum','f-med','f-death','f-inj','f-prop','f-notes'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('f-body').value='Station Wagon';}
+function fillF(p){const m={'f-type':p.type,'f-polno':p.polno,'f-name':p.name,'f-acct':p.acct,'f-branch':p.branch,'f-start':p.start,'f-end':p.end,'f-prem':p.prem,'f-addr':p.addr,'f-phone':p.phone,'f-plate':p.plate,'f-make':p.make,'f-chassis':p.chassis,'f-engine':p.engine,'f-body':p.body,'f-year':p.year,'f-seats':p.seats,'f-hp':p.hp,'f-sum':p.sum,'f-med':p.med,'f-death':p.death,'f-inj':p.inj,'f-prop':p.prop,'f-notes':p.notes};Object.entries(m).forEach(([id,v])=>{const e=document.getElementById(id);if(e&&v!=null)e.value=v;});}
+function saveP(){if(!gv('f-name')||!gv('f-start')||!gv('f-end')){alert('Please fill Name, Start Date and End Date.');return;}const p={id:editId||'p'+Date.now(),type:gv('f-type'),polno:gv('f-polno'),name:gv('f-name'),acct:gv('f-acct'),branch:gv('f-branch'),start:gv('f-start'),end:gv('f-end'),prem:gv('f-prem'),addr:gv('f-addr'),phone:gv('f-phone'),plate:gv('f-plate'),make:gv('f-make'),chassis:gv('f-chassis'),engine:gv('f-engine'),body:gv('f-body'),year:gv('f-year'),seats:gv('f-seats'),hp:gv('f-hp'),sum:gv('f-sum'),med:gv('f-med'),death:gv('f-death'),inj:gv('f-inj'),prop:gv('f-prop'),notes:gv('f-notes')};if(editId){const i=pols.findIndex(x=>x.id===editId);if(i>=0)pols[i]=p;}else pols.push(p);saveD();closeAdd();render();}
+function delP(id){if(!confirm('Delete this policy? Cannot be undone.'))return;pols=pols.filter(x=>x.id!==id);saveD();closeDet();render();}
+
+function openDet(id){
+  const p=pols.find(x=>x.id===id);if(!p)return;const d=dL(p.end);
+  document.getElementById('detBody').innerHTML=`<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:16px"><div><div style="font-size:17px;font-weight:800;color:var(--t);margin-bottom:3px">${p.name}</div><div style="font-size:12px;color:var(--t3)">${p.polno||'-'}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">${tBadge(p.type)}<div class="${dCls(d)} dtag"><i class="ti ti-clock" style="font-size:12px"></i>${dLbl(d)}</div></div></div>
+    <div class="ddiv"><i class="ti ti-file-text"></i>Policy Info</div>
+    <div class="dg"><div><div class="dl">Branch</div><div class="dv">${p.branch||'-'}</div></div><div><div class="dl">Account</div><div class="dv">${p.acct||'-'}</div></div><div><div class="dl">Start Date</div><div class="dv">${fD(p.start)}</div></div><div><div class="dl">Expiry Date</div><div class="dv" style="color:${d<=7?'var(--danger)':d<=30?'var(--warn)':'var(--t)'}">${fD(p.end)}</div></div><div><div class="dl">Premium</div><div class="dv">${p.prem||'-'}</div></div><div><div class="dl">Phone</div><div class="dv">${p.phone||'-'}</div></div></div>
+    ${p.addr?`<div style="margin-bottom:12px"><div class="dl">Address</div><div style="font-size:13px;color:var(--t)">${p.addr}</div></div>`:''}
+    <div class="ddiv"><i class="ti ti-car"></i>Vehicle Info</div>
+    <div class="dg"><div><div class="dl">Plate No.</div><div class="dv" style="font-size:16px;color:var(--crimson)">${p.plate||'-'}</div></div><div><div class="dl">Make</div><div class="dv">${p.make||'-'}</div></div><div><div class="dl">Chassis</div><div class="dv" style="font-size:11px;word-break:break-all">${p.chassis||'-'}</div></div><div><div class="dl">Engine</div><div class="dv">${p.engine||'-'}</div></div><div><div class="dl">Body / Year</div><div class="dv">${p.body||'-'} ${p.year||''}</div></div><div><div class="dl">Seating</div><div class="dv">${p.seats||'-'}</div></div><div style="grid-column:1/-1"><div class="dl">Sum Insured</div><div class="dv" style="color:var(--gold);font-size:15px">${p.sum||'N/A'}</div></div></div>
+    ${(p.med||p.death||p.inj||p.prop)?`<div class="ddiv"><i class="ti ti-shield-check"></i>Coverage</div><ul class="cov">${p.med?`<li><i class="ti ti-circle-check"></i>Emergency Medical: ${p.med}</li>`:''}${p.death?`<li><i class="ti ti-circle-check"></i>Death: ${p.death}</li>`:''}${p.inj?`<li><i class="ti ti-circle-check"></i>Bodily Injury: ${p.inj}</li>`:''}${p.prop?`<li><i class="ti ti-circle-check"></i>Property Damage: ${p.prop}</li>`:''}</ul>`:''}
+    ${p.notes?`<div class="nbox"><strong>Notes</strong>${p.notes}</div>`:''}`;
+  document.getElementById('detEdit').onclick=()=>openEdit(id);
+  document.getElementById('detDel').onclick=()=>delP(id);
+  document.getElementById('mDet').classList.add('on');
+}
+function closeDet(){document.getElementById('mDet').classList.remove('on');}
+
+function clearAll(){if(!confirm('Delete ALL data? This cannot be undone!'))return;localStorage.clear();pols=[];seed();render();alert('All data cleared.');}
+
+<script>
+// Inline service worker via blob (works without server)
+if('serviceWorker' in navigator) {
+  const swCode = atob('Ly8gSGlicmV0IEluc3VyYW5jZSBNYW5hZ2VyIOKAlCBTZXJ2aWNlIFdvcmtlcgovLyBFbmFibGVzIG9mZmxpbmUgdXNlIGFuZCBmYXN0IGxvYWRpbmcKCmNvbnN0IENBQ0hFX05BTUUgPSAnaGlicmV0LXYxJzsKY29uc3QgVVJMU19UT19DQUNIRSA9IFsKICAnLi8nLAogICcuL2luZGV4Lmh0bWwnLAogICcuL21hbmlmZXN0Lmpzb24nCl07CgpzZWxmLmFkZEV2ZW50TGlzdGVuZXIoJ2luc3RhbGwnLCBldmVudCA9PiB7CiAgZXZlbnQud2FpdFVudGlsKAogICAgY2FjaGVzLm9wZW4oQ0FDSEVfTkFNRSkudGhlbihjYWNoZSA9PiBjYWNoZS5hZGRBbGwoVVJMU19UT19DQUNIRSkpCiAgKTsKICBzZWxmLnNraXBXYWl0aW5nKCk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdhY3RpdmF0ZScsIGV2ZW50ID0+IHsKICBldmVudC53YWl0VW50aWwoCiAgICBjYWNoZXMua2V5cygpLnRoZW4oa2V5cyA9PgogICAgICBQcm9taXNlLmFsbChrZXlzLmZpbHRlcihrID0+IGsgIT09IENBQ0hFX05BTUUpLm1hcChrID0+IGNhY2hlcy5kZWxldGUoaykpKQogICAgKQogICk7CiAgc2VsZi5jbGllbnRzLmNsYWltKCk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGV2ZW50ID0+IHsKICBldmVudC5yZXNwb25kV2l0aCgKICAgIGNhY2hlcy5tYXRjaChldmVudC5yZXF1ZXN0KS50aGVuKGNhY2hlZCA9PiB7CiAgICAgIGlmIChjYWNoZWQpIHJldHVybiBjYWNoZWQ7CiAgICAgIHJldHVybiBmZXRjaChldmVudC5yZXF1ZXN0KS50aGVuKHJlc3BvbnNlID0+IHsKICAgICAgICBpZiAocmVzcG9uc2UgJiYgcmVzcG9uc2Uuc3RhdHVzID09PSAyMDAgJiYgcmVzcG9uc2UudHlwZSA9PT0gJ2Jhc2ljJykgewogICAgICAgICAgY29uc3QgY2xvbmUgPSByZXNwb25zZS5jbG9uZSgpOwogICAgICAgICAgY2FjaGVzLm9wZW4oQ0FDSEVfTkFNRSkudGhlbihjYWNoZSA9PiBjYWNoZS5wdXQoZXZlbnQucmVxdWVzdCwgY2xvbmUpKTsKICAgICAgICB9CiAgICAgICAgcmV0dXJuIHJlc3BvbnNlOwogICAgICB9KS5jYXRjaCgoKSA9PiBjYWNoZXMubWF0Y2goJy4vaW5kZXguaHRtbCcpKTsKICAgIH0pCiAgKTsKfSk7Cg==');
+  const blob = new Blob([swCode], {type:'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+</script>
+
+load();render();
+setTimeout(()=>checkNotifs(),1500);
+</script>
+</body>
+</html>

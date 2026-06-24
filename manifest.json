@@ -1,0 +1,28 @@
+{
+  "name": "Hibret Insurance Manager",
+  "short_name": "Hibret Ins.",
+  "description": "Track motor insurance policies and get push notifications before expiry",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a0810",
+  "theme_color": "#9B1B4A",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Add Policy",
+      "short_name": "Add",
+      "description": "Add a new insurance policy",
+      "url": "./index.html"
+    }
+  ]
+}
